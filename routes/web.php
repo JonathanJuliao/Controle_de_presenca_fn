@@ -37,5 +37,6 @@ Route::any('/registraPag', [App\Http\Controllers\HomeController::class, 'registr
 Route::any('/usuarios', [App\Http\Controllers\HomeController::class, 'usuarios']);
 Route::any('/PermissaoAdm', [App\Http\Controllers\HomeController::class, 'PermissaoAdm']);
 Route::any('/AdicionaCreditosColab', [App\Http\Controllers\HomeController::class, 'AdicionaCreditosColab']);
-
+Route::any('/cancela_inscricao', [App\Http\Controllers\HomeController::class, 'cancela_inscricao']);
+Route::any('/verificaSaldo', [App\Http\Controllers\HomeController::class, 'VerificaSaldo']);
 });

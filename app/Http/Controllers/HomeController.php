@@ -88,7 +88,11 @@ class HomeController extends Controller
         $colab = auth()->user()->name;
         $dia = $request->data_confirma;
 
-        DB::INSERT("INSERT INTO confirmacao (colaborador,id_colab,dia) values ('$colab','$id_colab','$dia')");
+        $saldo = DB::SELECT("SELECT Saldo From users where id = $id_colab");
+
+        $saldo_atual = $saldo[0]->Saldo + 1;
+        DB::UPDATE("update users set saldo = $saldo_atual where id = $id_colab");
+        DB::DELETE("DELETE FROM confirmacao WHERE dia = '$dia' and id_colab = $id_colab");
     }
 
     public function confirma(Request $request)
@@ -232,5 +236,13 @@ class HomeController extends Controller
              return 2;
         }
      
+    }
+
+    public function VerificaSaldo(Request $request){
+
+        $id_colab = auth()->user()->id;
+        $saldo = DB::SELECT("SELECT Saldo FROM users WHERE ID = $id_colab");
+
+        return $saldo[0]->Saldo;
     }
 }

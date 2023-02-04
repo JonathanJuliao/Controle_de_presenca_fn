@@ -36,10 +36,19 @@ function confirmaPresenca() {
         data: {
             data_confirma: data_confirma,
         },
+        beforeSend: function () {
+            Swal.fire({
+                title: "Confirmando presença...",
+                icon: "info",
+                allowOutsideClick: false,
+                showConfirmButton: false,
+            });
+        },
     }).done(function (data) {
+        Swal.close();
         busca_colaboradores();
+        verificaSaldo();
         verifica_confirmacao();
-
         Swal.fire({
             icon: "success",
             title: "Presença confirmada!",
@@ -57,16 +66,27 @@ function cancela_presenca() {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
         method: "get",
-        url: "/confirma",
+        url: "/cancela_inscricao",
         data: {
             data_confirma: data_confirma,
         },
+        beforeSend: function () {
+            Swal.fire({
+                title: "Cancelando presença...",
+                icon: "info",
+                allowOutsideClick: false,
+                showConfirmButton: false,
+            });
+        },
     }).done(function (data) {
         busca_colaboradores();
+        verificaSaldo();
+        verifica_confirmacao();
+        Swal.close();
 
         Swal.fire({
             icon: "success",
-            title: "Presença confirmada!",
+            title: "Presença cancelada!",
             showConfirmButton: false,
             timer: 1500,
         });
@@ -386,5 +406,22 @@ function AdicionaCreditosColab(){
       
     
 });
+
+}
+
+function verificaSaldo(){
+    
+    $.ajax({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        method: "get",
+        url: "/verificaSaldo",
+        data:{
+             
+        }
+    }).done(function (data) {
+        document.getElementById('saldo').innerHTML =  `&nbsp;${data}&nbsp;` 
+    }); 
 
 }

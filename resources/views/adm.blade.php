@@ -382,3 +382,11 @@
         </div>
     </div>
 </div>
+<style>
+    @media only screen and (max-width: 760px), (min-width: 768px) and (max-width: 1024px) {
+    select {
+        width: 150px;
+    }
+}
+    
+    </style>
