@@ -182,9 +182,6 @@
 
         {{--  MODAL  --}}
 
-
-
-
         <!-- A modal -->
         <div class="modal fade" id="HistoricoRegistros">
             <div class="modal-dialog modal-dialog-centered">

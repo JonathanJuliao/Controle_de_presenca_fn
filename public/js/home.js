@@ -427,9 +427,9 @@ function verificaSaldo(){
 
 
 function HistoricoRegistros(){
-
+    console.log('oi')
      
-    document.getElementById("body_table_detalhes_historico").innerHTML = `<tr> <td></td><td>Carregando...</td></tr>`
+    document.getElementById("body_table_detalhes_historico").innerHTML = `<tr> <td>Carregando...</td></tr>`
 
     const input = document.querySelector('#data_pesq');
     const dataSelecionada = input.value;
