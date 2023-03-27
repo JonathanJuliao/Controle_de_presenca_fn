@@ -33,8 +33,8 @@
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
     </script>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css"/>
- 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" />
+
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
 
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -82,14 +82,17 @@
                             <img src="assets/images/logo.png" style="height: 70px; max-width: 70px">
                         </a>
                         <!-- ***** Logo End ***** -->
-                        <li class="btn btn-primary rounded-pill m-5"><a class="text-light fs-7">Saldo:  <span class="fs-5" id="saldo"> &nbsp;{{$saldo}} &nbsp;</span></a></li>
+                        <li class="btn btn-primary rounded-pill m-5"><a class="text-light fs-7">Saldo: <span
+                                    class="fs-5" id="saldo"> &nbsp;{{ $saldo }} &nbsp;</span></a></li>
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
 
                             <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="#services">Confirmados</a></li>
-                            @if($perm == 1)
-                            <li > <a href="{{ route('adm') }}">Administração</a></li>
+                            <li class="scroll-to-section"><a <a href="#services">Confirmados</a></li>
+                            <li class="scroll-to-section"><a data-bs-toggle="modal"
+                                    data-bs-target="#HistoricoRegistros">Meu Histórico</a></li>
+                            @if ($perm == 1)
+                                <li> <a href="{{ route('adm') }}">Administração</a></li>
                             @endif
                             <li class="main-red-button-hover"><a class="main-red-button-hover"
                                     href="{{ route('logout') }}"
@@ -100,7 +103,7 @@
                                     @csrf
                                 </form>
                             </li>
-                            
+
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -113,7 +116,7 @@
     </header>
     <!-- ***** Header Area End ***** -->
 
-        
+
     <div class="main-banner" id="top">
         <div class="container">
             <div class="row">
@@ -126,7 +129,8 @@
                                     <h2>Tênis de mesa <em>SESC</em></h2>
                                     <br>
                                     <label for="data_confirma">Data</label>
-                                    <input onchange="verifica_confirmacao()" type="date" id="data_confirma" class="form-control p-2 m-2">
+                                    <input onchange="verifica_confirmacao()" type="date" id="data_confirma"
+                                        class="form-control p-2 m-2">
                                     <br>
                                     <div class="down-buttons">
                                         <div class="main-blue-button-hover text-light" id="div_confirma">
@@ -167,7 +171,8 @@
                     <div class="item">
                         <div class="card border border-dark">
                             <div class="list-group" id="lista_confirmados">
-                                `<button type="button" class="list-group-item list-group-item-action">Carregando...</button>`
+                                `<button type="button"
+                                    class="list-group-item list-group-item-action">Carregando...</button>`
                             </div>
                         </div>
                     </div>
@@ -175,31 +180,53 @@
             </div>
         </div>
 
+        {{--  MODAL  --}}
 
-        <div class="footer-dec">
-            <img src="assets/images/footer-dec.png" alt="">
-        </div>
 
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="about footer-item">
-                            <div class="logo">
-                                <a href="#"><img src="assets/images/logo.png"
-                                        alt="Onix Digital TemplateMo"></a>
+
+
+        <!-- A modal -->
+        <div class="modal fade" id="HistoricoRegistros">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Cabeçalho da modal -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Histórico de Registros</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </div>
+
+                    <!-- Corpo da modal -->
+                    <div class="modal-body">
+                        <div class="form-row mb-3">
+                            <div class="col">
+                                <label for="mes">Selecione o mês:</label>
+                                <input type="month" class="form-control" name="data_pes" id="data_pesq">
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 float-end">
-                        <div class="float-end footer-item">
-                            <p>Desenvolvido por Jonathan Julião</p>
-                            <p>31 98332-6575</p>
+                        <br>
+                        <div style="max-height: 300px; overflow: auto;">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Data do registro</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="body_table_detalhes_historico">
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
+
+                    <!-- Rodapé da modal -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
+
+
+
 
 
         <!-- Scripts -->

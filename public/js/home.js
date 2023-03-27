@@ -6,6 +6,7 @@ $.ajaxSetup({
 
 window.onload = function () {
     let date = new Date();
+
     // Formata a data no formato yyyy-mm-dd
     let dateString = date.toISOString().substring(0, 10);
 
@@ -201,8 +202,6 @@ function contaCredito() {
       
     });
 }
-
-
 
 function detalhes_credito(id){
 
@@ -425,3 +424,60 @@ function verificaSaldo(){
     }); 
 
 }
+
+
+function HistoricoRegistros(){
+
+     
+    document.getElementById("body_table_detalhes_historico").innerHTML = `<tr> <td></td><td>Carregando...</td></tr>`
+
+    const input = document.querySelector('#data_pesq');
+    const dataSelecionada = input.value;
+
+    const mesSelecionado = dataSelecionada.split('-')[1];
+    const anoSelecionado = dataSelecionada.split('-')[0];
+
+
+    $.ajax({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        method: "get",
+        url: "/HistoricoReg",
+        data: {
+            mes: mesSelecionado,
+            year: anoSelecionado
+        }
+    }).done(function (data) {
+
+        document.getElementById("body_table_detalhes_historico").innerHTML = ""
+
+        if(data.length > 0 ){
+            data.forEach(usuario => {
+    
+                document.getElementById("body_table_detalhes_historico").innerHTML += `<tr>
+                <td>${usuario.dia}</td>
+            </tr>`;
+                
+            });
+        }else{
+            document.getElementById("body_table_detalhes_historico").innerHTML = `<tr><td>Nenhum registro encontrado</td></tr>`
+        }
+
+    });
+
+}
+
+$(document).ready(function() {
+    // Adiciona o listener para o evento 'shown.bs.modal' da modal 'HistoricoRegistros'
+    $('#HistoricoRegistros').on('shown.bs.modal', function() {
+      // Chama a função 'HistoricoRegistros' quando a modal for exibida
+      HistoricoRegistros();
+    });
+  
+    // Adiciona o listener para o evento 'change' do elemento 'data_pesq'
+    $('#data_pesq').on('change', function() {
+      // Chama a função 'HistoricoRegistros' quando houver mudanças no elemento 'data_pesq'
+      HistoricoRegistros();
+    });
+  });

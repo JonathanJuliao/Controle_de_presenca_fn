@@ -245,4 +245,29 @@ class HomeController extends Controller
 
         return $saldo[0]->Saldo;
     }
+
+    
+    public function HistoricoReg(Request $request){
+
+        $date = Carbon::create($request->year, $request->mes, null, null);
+
+        $ultimo_dia_do_mes = Carbon::parse($date)->lastOfMonth()->format('Y-m-d');
+
+        $primero_dia_do_mes = Carbon::parse($date)->firstOfMonth()->format('Y-m-d');
+
+        $id_colab = auth()->user()->id;
+
+        $info = DB::SELECT("SELECT confirmacao.id,dia,situacao FROM confirmacao
+        inner join users on users.id = confirmacao.id_colab
+        WHERE users.id = $id_colab
+        AND dia BETWEEN '$primero_dia_do_mes' AND '$ultimo_dia_do_mes'");
+
+        foreach ($info as $key => $reg) {
+            $reg->dia = date("d/m/Y", strtotime($reg->dia));
+        }
+    
+        return $info;
+       
+
+    }
 }
