@@ -13,6 +13,10 @@
     <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+
+    <link rel="canonical" href="https://www.sescminastm.com.br">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <!--===============================================================================================-->	
     <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
 <!--===============================================================================================-->
@@ -24,9 +28,30 @@
 <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <link rel="manifest" href="manifest.json" />
+
 <!--===============================================================================================-->
 </head>
-
+<script>
+    // This is the service worker with the Cache-first network
+    // Add this below content to your HTML page, or add the js file to your page at the very top to    register service worker
+    // Check compatibility for the browser we're running this in
+    if ("serviceWorker" in navigator) {
+     if (navigator.serviceWorker.controller) {
+     console.log("[PWA Builder] active service worker found, no need to register");
+     } else {
+     // Register the service worker
+     navigator.serviceWorker
+     .register("pwabuilder-sw.js", {
+     scope: "./"
+     })
+     .then(function (reg) {
+     console.log("[PWA Builder] Service worker has been registered for scope: " + reg.scope);
+     });
+     }
+    }
+    </script>
 <div class="limiter">
     <div class="container-login100" style="background-image: url('images/5566879.jpg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">

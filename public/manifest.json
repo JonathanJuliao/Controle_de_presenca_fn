@@ -1,0 +1,30 @@
+{
+  "background_color": "#ffffff",
+  "description": "Controle de presença no SESC MINAS TENIS DE MESA.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "sescminastm",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "sescminastm",
+  "start_url": "/",
+  "theme_color": "#f0af57",
+  "categories": [
+    "entertainment",
+    "games",
+    "sports"
+  ],
+  "screenshots": [],
+  "icons": [
+    {
+      "src": "images/icons/favicon.ico",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.ico",
+      "type": "image/x-icon"
+    }
+  ],
+  "shortcuts": [],
+  "lang": "pt"
+}
