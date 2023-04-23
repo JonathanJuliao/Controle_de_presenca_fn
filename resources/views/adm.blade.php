@@ -207,24 +207,26 @@
                             </div>
                         </div>
                         <br>
-                        <table
-                            class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
-                            id="tabela_datalhes_nf">
-                            <thead class="bordered">
-                                <tr>
-                                    <th>Nome </th>
-                                    <th>Registros no mês</th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody id="body_table">
-                                <tr>
-                                    <td>
-                                        Carregando...</td>
-                                </tr>
+                        <div class="table-responsive">
+                            <table
+                                class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
+                                id="tabela_datalhes_nf">
+                                <thead class="bordered">
+                                    <tr>
+                                        <th>Nome </th>
+                                        <th>Registros no mês</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="body_table">
+                                    <tr>
+                                        <td>
+                                            Carregando...</td>
+                                    </tr>
 
-                            <tbody>
-                        </table>
+                                <tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3 float-end">
@@ -234,10 +236,11 @@
                             Gerenciar
                         </button>
                         <ul class="dropdown-menu">
-                            <li class="dropdown-item"> <a class="" data-bs-toggle="modal" data-bs-target="#Modal_credito">Adicionar
+                            <li class="dropdown-item"> <a class="" data-bs-toggle="modal"
+                                    data-bs-target="#Modal_credito">Adicionar
                                     Credito</a></li>
-                            <li class="dropdown-item"><a class="" data-bs-toggle="modal" data-bs-target="#Modal_usuarios"
-                                    onclick="TabelaUsuarios()">Gerenciar
+                            <li class="dropdown-item"><a class="" data-bs-toggle="modal"
+                                    data-bs-target="#Modal_usuarios" onclick="TabelaUsuarios()">Gerenciar
                                     Usuarios</a></li>
                         </ul>
                     </div>
@@ -300,18 +303,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <table class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
-                    id="tabela_datalhes_nf">
-                    <thead class="bordered">
-                        <tr>
-                            <th>Data de Registro</th>
-                            <th>Situação</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody id="body_table_detalhes">
-                    <tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
+                        id="tabela_datalhes_nf">
+                        <thead class="bordered">
+                            <tr>
+                                <th>Data de Registro</th>
+                                <th>Situação</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="body_table_detalhes">
+                        <tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Voltar</button>
@@ -331,19 +336,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <table class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
-                    id="tabela_usuarios">
-                    <thead class="bordered">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Permissão</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabela_usuarios_detalhes">
-                    <tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
+                        id="tabela_usuarios">
+                        <thead class="bordered">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Permissão</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela_usuarios_detalhes">
+                        <tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Voltar</button>
@@ -383,10 +390,10 @@
     </div>
 </div>
 <style>
-    @media only screen and (max-width: 760px), (min-width: 768px) and (max-width: 1024px) {
-    select {
-        width: 150px;
+    @media only screen and (max-width: 760px),
+    (min-width: 768px) and (max-width: 1024px) {
+        select {
+            width: 150px;
+        }
     }
-}
-    
-    </style>
+</style>
