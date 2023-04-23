@@ -61,11 +61,11 @@
 
 
                 <div class="flex-col-c ">
-                    <span class="txt1 p-b-17">
-                         Ainda não tem cadastro ?
-                    </span>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('register') }}">Cadastre-se</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('password.request') }}">Esqueci minha senha</a>
                     </li>
                 </div>
             </form>
