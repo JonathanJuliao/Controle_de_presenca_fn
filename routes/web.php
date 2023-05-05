@@ -14,9 +14,9 @@ use Laravel\Socialite\Facades\Socialite;
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('auth.login');
-});
+}); */
 
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); 
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email'); 
@@ -26,6 +26,16 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 Route::get('/register', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
+
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        if (Auth::check()) {
+            return redirect()->route('principal');
+        }
+    
+        return view('auth.login');
+    });
+});
 
 Route::middleware('auth')->group(function () {
 /* 
