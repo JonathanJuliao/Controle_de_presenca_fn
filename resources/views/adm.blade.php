@@ -27,6 +27,12 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
     <link rel="stylesheet" href="fonts/icomoon/style.css">
@@ -207,26 +213,24 @@
                             </div>
                         </div>
                         <br>
-                        <div class="table-responsive">
-                            <table
-                                class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
-                                id="tabela_datalhes_nf">
-                                <thead class="bordered">
-                                    <tr>
-                                        <th>Nome </th>
-                                        <th>Registros no mês</th>
-                                        <th>Ação</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="body_table">
-                                    <tr>
-                                        <td>
-                                            Carregando...</td>
-                                    </tr>
+                        <table
+                            class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
+                            id="tabela_datalhes_nf">
+                            <thead class="bordered">
+                                <tr>
+                                    <th>Nome </th>
+                                    <th>Registros no mês</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body_table">
+                                <tr>
+                                    <td>
+                                        Carregando...</td>
+                                </tr>
 
-                                <tbody>
-                            </table>
-                        </div>
+                            <tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="col-md-3 float-end">
@@ -242,6 +246,7 @@
                             <li class="dropdown-item"><a class="" data-bs-toggle="modal"
                                     data-bs-target="#Modal_usuarios" onclick="TabelaUsuarios()">Gerenciar
                                     Usuarios</a></li>
+                            <li class="dropdown-item"><a class="" onclick="GeraDOCRelatorio()">Exportar Relatótio</a></li>
                         </ul>
                     </div>
                 </div>
@@ -303,20 +308,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
-                        id="tabela_datalhes_nf">
-                        <thead class="bordered">
-                            <tr>
-                                <th>Data de Registro</th>
-                                <th>Situação</th>
-                                <th>Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody id="body_table_detalhes">
-                        <tbody>
-                    </table>
-                </div>
+                <table class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
+                    id="tabela_datalhes_nf">
+                    <thead class="bordered">
+                        <tr>
+                            <th>Data de Registro</th>
+                            <th>Situação</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body_table_detalhes">
+                    <tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Voltar</button>
@@ -336,21 +339,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
-                        id="tabela_usuarios">
-                        <thead class="bordered">
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>Email</th>
-                                <th>Permissão</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela_usuarios_detalhes">
-                        <tbody>
-                    </table>
-                </div>
+                <table class="table table table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
+                    id="tabela_usuarios">
+                    <thead class="bordered">
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center" >Nome</th>
+                            <th class="text-center" >Saldo</th>
+                            <th class="text-center" >Email</th>
+                            <th class="text-center" >Permissão</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela_usuarios_detalhes">
+                    <tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Voltar</button>

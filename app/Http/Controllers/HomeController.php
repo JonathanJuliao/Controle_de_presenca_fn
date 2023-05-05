@@ -189,7 +189,6 @@ class HomeController extends Controller
     }
 
     public function registraPag(Request $request){
-        
 
         DB::update("update confirmacao set situacao = 'OK' where id = $request->id");
 
@@ -197,7 +196,7 @@ class HomeController extends Controller
 
     public function usuarios(){
         
-        $info = DB::SELECT("SELECT id,name,email,ADM FROM users");
+        $info = DB::SELECT("SELECT id,name,email,ADM,saldo FROM users");
         return $info;
     }
 
@@ -221,21 +220,31 @@ class HomeController extends Controller
         
        
     }
-    public function AdicionaCreditosColab(Request $request){
-
-        $credito = DB::SELECT("SELECT saldo FROM users Where id = $request->id");
-
-        if($credito){
-            $credito_atual = $credito[0]->saldo + $request->numeroCreditos;
-
-            DB::UPDATE("update users set saldo = $credito_atual where id = $request->id");
-
-            return 1;
-
-        }else{
-             return 2;
-        }
+    public function AdicionaCreditosColab(Request $request) {
      
+        $credito = DB::SELECT("SELECT saldo FROM users Where id = $request->id");
+    
+        if ($credito) {
+            // Verifica se o saldo do usuário é suficiente para cobrir os registros de pagamento pendentes
+            $registros_pendentes = DB::SELECT("SELECT COUNT(*) AS qtd_registros_pendentes FROM confirmacao WHERE situacao = 'PEND' AND id_colab = $request->id");
+
+            $saldo_disponivel = $credito[0]->saldo + $request->numeroCreditos;
+            $registros_pagos = 0;
+            foreach ($registros_pendentes as $registro) {
+                if($registros_pagos <= $request->numeroCreditos ){
+                    DB::UPDATE("UPDATE confirmacao SET situacao = 'OK' WHERE situacao = 'PEND' AND id_colab = $request->id LIMIT 1");
+                    $saldo_disponivel--;
+                    $registros_pagos++;
+                }
+            }
+    
+            // Atualiza o saldo do usuário
+            DB::UPDATE("UPDATE users SET saldo = $saldo_disponivel WHERE id = $request->id");
+    
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
     public function VerificaSaldo(Request $request){

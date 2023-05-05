@@ -21,22 +21,6 @@ window.onload = function () {
         CarregandoDatas();
         contaCredito();
     }
-
-    if ("serviceWorker" in navigator) {
-        if (navigator.serviceWorker.controller) {
-        console.log("[PWA Builder] active service worker found, no need to register");
-        } else {
-        // Register the service worker
-        navigator.serviceWorker
-        .register("pwabuilder-sw.js", {
-        scope: "./"
-        })
-        .then(function (reg) {
-        console.log("[PWA Builder] Service worker has been registered for scope: " + reg.scope);
-        });
-        }
-       }
-
    
 };
 
@@ -213,8 +197,42 @@ function contaCredito() {
         }else{
             document.getElementById("body_table").innerHTML = `<tr> <td></td><td>Nenhum registro encontrado</td></tr>`
         }
-     
-      
+    });
+}
+
+function contaCredito() {
+
+    document.getElementById("body_table").innerHTML = `<tr> <td></td><td>Carregando...</td></tr>`
+    
+    mes = document.getElementById('month').value;
+    year = document.getElementById('year').value;
+
+    $.ajax({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        method: "get",
+        url: "/contaCredito",
+        data:{
+            mes: mes,
+            year: year
+        }
+    }).done(function (data) {
+
+        document.getElementById("body_table").innerHTML = ""
+
+        if(data.length > 0){
+            data.forEach(usuario => {
+                document.getElementById("body_table").innerHTML += `<tr>
+                <td>${usuario.name}</td>
+                <td>${usuario.Registros}</td>
+                <td><button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"  onclick="detalhes_credito(${usuario.id})" >Gerenciar</button></td>
+            </tr>`;
+                
+            });
+        }else{
+            document.getElementById("body_table").innerHTML = `<tr> <td></td><td>Nenhum registro encontrado</td></tr>`
+        }
     });
 }
 
@@ -342,10 +360,11 @@ function TabelaUsuarios(){
                 }
     
                 document.getElementById("tabela_usuarios_detalhes").innerHTML += `<tr>
-                <td>${usuario.id}</td>
-                <td>${usuario.name}</td>
-                <td>${usuario.email}</td>
-                <td>${adm}</td>
+                <td class="text-center"> ${usuario.id}</td>
+                <td class="text-center">${usuario.name}</td>
+                <td class="text-center">${usuario.saldo ?? 0}</td>
+                <td class="text-center">${usuario.email}</td>
+                <td> ${adm}</td>
             </tr>`;
                 
             });
@@ -442,7 +461,6 @@ function verificaSaldo(){
 
 
 function HistoricoRegistros(){
-    console.log('oi')
      
     document.getElementById("body_table_detalhes_historico").innerHTML = `<tr> <td>Carregando...</td></tr>`
 
@@ -483,6 +501,121 @@ function HistoricoRegistros(){
 
 }
 
+ function  GeraPDF(text){
+
+    
+    var opcoes = {
+        margin: [0.5, 0.5, 1, 0.5],
+        filename: `Relatorio.pdf`,
+        image: {
+            type: "jpeg",
+            quality: 0.98
+        },
+        pagebreak: {
+            mode: ['avoid-all', 'css', 'legacy']
+        },
+        html2canvas: {
+            scale: 2,
+            letterRendering: true
+        },
+        jsPDF: {
+            unit: "in",
+            format: "a4",
+            orientation: "portrait"
+        },
+    };
+
+      // Converte o conteúdo em PDF usando o html2pdf
+      html2pdf().set(opcoes).from(text).save();
+
+      swal.close(); 
+    
+}
+
+ async function GeraDOCRelatorio(){
+
+    Swal.fire({
+        title: "Gerando documento...",
+        icon: "warning",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        /*  timer: 10000,
+         timerProgressBar: true */
+    });
+
+
+    mes = document.getElementById('month').value;
+    year = document.getElementById('year').value;
+
+    $.ajax({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        method: "get",
+        url: "/contaCredito",
+        data:{
+            mes: mes,
+            year: year
+        }
+    }).done(async function (data) {
+          var  text = await textRelatorio(data,mes,year)
+         GeraPDF(text);
+              
+    });
+
+}
+
+async function textRelatorio(data,mes,year){
+
+    textF= "";
+    tableBody = ""; 
+
+    if(data.length > 0){
+        data.forEach(usuario => {
+            tableBody += `<tr>
+            <td>${usuario.name}</td>
+            <td>${usuario.Registros}</td>
+            </tr>`;
+        });
+    }else{
+        tableBody = `<tr> <td></td><td>Nenhum registro encontrado</td></tr>`
+    }
+
+    text = ` 
+    <div class="row">
+        <div class="col-md-12">
+           <div class="text-center fs-3 d-flex justify-content-center"> <blockquote> <blockquote>Relatório Presença<div>
+        <div>
+    <div><br><br>
+    <div class="row">
+        <div class="col-md-12 tetx-start">
+            <div class="fs-6 tetx-start">Relatório de presença do  de ${mes}/${year}  <div>
+        <div>
+    <div><br><br>
+    <div class="row">
+        <div class="col-md-12">
+        <div class="m-3">
+        <table class="table table-sm table-striped table-bordered table-hover table-ordered fs-7 w-100 nowrap"
+                        id="tabela_datalhes_nf">
+                        <thead class="bordered">
+                            <tr>
+                                <th>Nome</th>
+                                <th>Presença</th>
+                            </tr>
+                        </thead>
+                        <tbody id="body_table_detalhes">
+                             ${tableBody}
+                        <tbody>
+                    </table>
+                    </div>
+        <div>
+    <div>
+    `; 
+    
+ 
+    return text;
+}
+
 $(document).ready(function() {
     // Adiciona o listener para o evento 'shown.bs.modal' da modal 'HistoricoRegistros'
     $('#HistoricoRegistros').on('shown.bs.modal', function() {
@@ -496,3 +629,4 @@ $(document).ready(function() {
       HistoricoRegistros();
     });
   });
+
